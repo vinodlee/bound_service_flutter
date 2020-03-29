@@ -4,7 +4,16 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:bound_service/bound_service.dart';
 
-void main() => runApp(MyApp());
+void main() => runZoned<Future<Null>>(() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MyApp());
+  });
+}, onError: (error, stackTrace) async {
+  debugPrint(error.toString());
+},
+);
 
 class MyApp extends StatefulWidget {
   @override
